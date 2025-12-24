@@ -15,10 +15,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser //simulate a principal, such as an authenticated principal.
 class CashCardApplicationTests {
 
     @Autowired
@@ -36,6 +36,7 @@ class CashCardApplicationTests {
     @DirtiesContext
     void shouldCreateANewCashCard() throws Exception {
         String location = this.mvc.perform(post("/cashcards")
+                        .with(csrf()) //add CSRF token to the request needed for post req
                         .contentType("application/json")
                         .content("""
                         {
