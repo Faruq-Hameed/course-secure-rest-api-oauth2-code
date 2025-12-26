@@ -9,7 +9,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -18,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithMockUser //simulate a principal, such as an authenticated principal.
+@WithMockUser(username = "sarah1") //simulate a principal with username sarah1 instead of default (user, such as an authenticated principal.
 class CashCardApplicationTests {
 
     @Autowired
@@ -59,7 +60,6 @@ class CashCardApplicationTests {
         this.mvc.perform(get("/cashcards"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(3))
-                .andExpect(jsonPath("$..owner").value(hasItem("sarah1")))
-                .andExpect(jsonPath("$..owner").value(hasItem("esuez5")));
+                .andExpect(jsonPath("$..owner").value(everyItem(equalTo("sarah1"))));
     }
 }
