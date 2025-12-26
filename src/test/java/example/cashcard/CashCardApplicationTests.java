@@ -59,7 +59,7 @@ class CashCardApplicationTests {
     void shouldReturnAllCashCardsWhenListIsRequested() throws Exception {
         this.mvc.perform(get("/cashcards"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(3))
+                .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$..owner").value(everyItem(equalTo("sarah1"))));
     }
 }
