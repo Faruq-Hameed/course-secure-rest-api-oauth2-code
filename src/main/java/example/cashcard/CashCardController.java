@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,7 +47,7 @@ public class CashCardController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<CashCard>> findAll(Authentication authentication) {
+    public ResponseEntity<Iterable<CashCard>> findAll(@CurrentOwner String owner) /* Current owner returns string owner */ {
 //        var filtered = new ArrayList<CashCard>();
 //        this.cashCards.findAll().forEach(cashCard -> {
 //            if (cashCard.owner().equals(authentication.getName())){
@@ -54,7 +55,7 @@ public class CashCardController {
 //            }
 //        });
 //        return ResponseEntity.ok(filtered);
-        var cashCards = this.cashCards.findByOwner(authentication.getName());
+        var cashCards = this.cashCards.findByOwner(owner);
         return ResponseEntity.ok(cashCards);
 
     }
